@@ -16,8 +16,8 @@
 				<li v-for="tag in tags" :key="tag.id" class="text-bg-light list-group-item d-flex justify-content-between align-items-center">
 					#{{ tag.name }}
 					<div class="d-flex flex-row gap-2">
-						<span class="badge text-bg-primary rounded-pill" @click="editPost(tag.id)"><fa icon="edit"/></span>
-						<span class="badge text-bg-danger rounded-pill" @click="deletePost(tag.id)"><fa icon="trash"/></span>
+						<span class="badge text-bg-primary rounded-pill" @click="editTag(tag.id)"><fa icon="edit"/></span>
+						<span class="badge text-bg-danger rounded-pill" @click="deleteTag(tag.id)"><fa icon="trash"/></span>
 					</div>
 				</li>
 			</ul>
@@ -87,14 +87,14 @@
         isEditing.value = false
     }
 
-    const deletePost = async(id) => {
+    const deleteTag = async(id) => {
         await fetch (`${API_URL}/${id}`, {
             method: 'DELETE'
         })
         tags.value = tags.value.filter(tag => tag.id !== id)
     }
 
-    const editPost = async(id) => {
+    const editTag = async(id) => {
         const tag = tags.value.find(tag => tag.id === id)
 
         name.value = tag.name
