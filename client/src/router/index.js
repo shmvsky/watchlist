@@ -12,6 +12,10 @@ const routes = [
     path: '/movies',
     name: 'MovieList',
     component: MovieListView
+  },
+  {
+    path: '/',
+    redirect: '/movies'
   }
 ];
 

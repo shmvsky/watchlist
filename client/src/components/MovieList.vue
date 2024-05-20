@@ -1,26 +1,29 @@
 <template>
-	<div>
-	  <h2>All Movies</h2>
-	  <div>
-		<label>Sort by Rating:</label>
-		<button @click="sortMovies('asc')">Ascending</button>
-		<button @click="sortMovies('desc')">Descending</button>
+	<div>	
+
+
+	  <div class="d-flex flex-row gap-4 mb-3">
+			<div class="border rounded p-2 d-flex flex-row align-items-center">
+				<label class="">Рейтинг</label>
+				<button class="btn btn-primary-secondary" @click="sortMovies('asc')"><fa icon="arrow-up"/></button>
+				<button class="btn btn-primary-secondary" @click="sortMovies('desc')"><fa icon="arrow-down"/></button>
+			</div>
+			<div class="border rounded p-2 d-flex flex-row align-items-center">
+				<label class="">Группировать</label>
+				<button class="btn btn-primary-secondary" @click="groupBy('author')"><fa icon="user"/></button>
+				<button class="btn btn-primary-secondary" @click="groupBy('tag')"><fa icon="tag"/></button>
+				<button class="btn btn-primary-secondary" @click="groupBy('default')"><fa icon="x"/></button>
+			</div>
 	  </div>
-	  <div>
-		<label>Group by:</label>
-		<button @click="groupBy('author')">Author</button>
-		<button @click="groupBy('tag')">Tag</button>
-	  </div>
+
 	  <div v-for="group in groupedMovies" :key="group.name">
-		<h3>{{ group.name }}</h3>
-		<ul>
-		  <li v-for="movie in group.movies" :key="movie.id">
-			{{ movie.title }} - Rating: {{ movie.rate }}
-		  </li>
-		</ul>
+			<h5>{{ group.name }}</h5>
+			<ul class="list-group list-group-flush">
+				<li v-for="movie in group.movies" :key="movie.id" class="list-group-item text-bg-light"> {{ movie.title }} - Rating: {{ movie.rate }}</li>
+			</ul>
 	  </div>
 	</div>
-  </template>
+</template>
   
   <script>
   import { getFilms, getAuthors, getTags } from '../services/api';
@@ -51,7 +54,7 @@
 		if (this.groupByType === 'tag') {
 		  return this.groupByTag();
 		}
-		return [{ name: 'All Movies', movies: this.sortedMovies }];
+		return [{name: "Все фильмы", movies: this.sortedMovies }];
 	  }
 	},
 	methods: {
