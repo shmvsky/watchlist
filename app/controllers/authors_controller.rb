@@ -3,13 +3,13 @@ class AuthorsController < ApplicationController
 
   # GET /authors
   def index
-    @authors = Author.all
-
+    @authors = Author.includes(:films).all
     render json: @authors
   end
 
   # GET /authors/1
   def show
+    author = Author.includes(:films).find(params[:id])
     render json: @author
   end
 
