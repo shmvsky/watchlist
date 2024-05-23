@@ -1,113 +1,87 @@
 <template>
-	<div>
-	  <h2>Add New Movie</h2>
-	  <form @submit.prevent="submitForm">
-		<div>
-		  <label>Title:</label>
-		  <input v-model="film.title" required>
-		</div>
-		<div>
-		  <label>Note:</label>
-		  <textarea v-model="film.note"></textarea>
-		</div>
-		<div>
-		  <label>Rate:</label>
-		  <input type="number" v-model="film.rate" min="1" max="5">
-		</div>
-		<div>
-		  <label>Status:</label>
-		  <select v-model="film.status">
-			<option value=0>Watched</option>
-			<option value=1>Planned</option>
-			<option value=2>Dropped</option>
-		  </select>
-		</div>
-		<div>
-		  <label>Author:</label>
-		  <select v-model="film.author_id">
-			<option v-for="author in authors" :value="author.id">{{ author.name }}</option>
-		  </select>
-		  <input v-model="newAuthorName" placeholder="Add new author">
-		  <button type="button" @click="addNewAuthor">Add Author</button>
-		</div>
-		<div>
-		  <label>Tags:</label>
-		  <select v-model="selectedTag">
-			<option v-for="tag in tags" :value="tag.id">{{ tag.name }}</option>
-		  </select>
-		  <button type="button" @click="addTag">Add Tag</button>
-		  <ul>
-			<li v-for="tag in film.tags">{{ tag.name }}</li>
-		  </ul>
-		</div>
-		<div>
-		  <button type="submit">Add Movie</button>
-		</div>
-	  </form>
-	</div>
-  </template>
+  <div class="d-flex flex-row">
+
+    <form action="" class="d-flex flex-column gap-2 p-4 border rounded w-50" @submit.prevent="submitForm">      
+      <div class="">
+        <label class="form-label display-6">Наименование</label>
+        <InputText class="form-control" v-model="film.title" placeholder="Введите текст"/>
+      </div>
+      <div>
+        <label class="form-label display-6">Заметка</label>
+        <Textarea class="form-control" v-model="film.note" placeholder="Введите текст"/>
+      </div>
+      
+      <div class="mt-2 d-flex flex-row gap-3">
+        <Dropdown v-model="selectedStatus" checkmark  :options="statuses" optionLabel="name" placeholder="Установите статус"/>
+        <Dropdown class="w-full" v-model="selectedAuthor" checkmark  :options="authors" optionLabel="name" placeholder="Выберите автора"/>
+      </div>
+      <MultiSelect v-model="selectedTags" display="chip" :options="tags" optionLabel="name" placeholder="Тэги"/>
+
+      <div class="d-flex flex-row mt-2">
+        <label class="display-6 mr-3">Оценка</label>
+        <Rating v-model="film.rate" :cancel="false" class="mt-2" />
+      </div>
+
+      <button class="btn btn-outline-dark text-left mt-4">Сохранить</button>
+    </form>
+  </div>
+</template>
   
-  <script>
+<script>
   import { getAuthors, createAuthor, getTags, createFilm } from '../services/api';
   
   export default {
-	data() {
-	  return {
-		film: {
-		  title: '',
-		  note: '',
-		  rate: null,
-		  status: 0,
-		  author_id: null,
-		  tags: []
-		},
-		authors: [],
-		tags: [],
-		newAuthorName: '',
-		selectedTag: null
-	  };
-	},
-	methods: {
-	  async fetchAuthorsAndTags() {
-		try {
-		  const [authorsResponse, tagsResponse] = await Promise.all([getAuthors(), getTags()]);
-		  console.log(authorsResponse);
-		  this.authors = authorsResponse.data;
-		  this.tags = tagsResponse.data;
-		} catch (error) {
-		  console.error(error);
-		}
-	  },
-	  async addNewAuthor() {
-		try {
-		  const response = await createAuthor({ name: this.newAuthorName });
-		  this.authors.push(response.data);
-		  this.film.author_id = response.data.id;
-		  this.newAuthorName = '';
-		} catch (error) {
-		  console.error(error);
-		}
-	  },
-	  addTag() {
-		const tag = this.tags.find(tag => tag.id === this.selectedTag);
-		if (tag && !this.film.tags.includes(tag)) {
-		  this.film.tags.push(tag);
-		}
-	  },
-	  async submitForm() {
-		try {
-		  this.film.status = parseInt(this.film.status);
-		  await createFilm(this.film);
-		  alert('Movie added successfully');
-		  this.$router.push('/movies');
-		} catch (error) {
-		  console.error(error);
-		}
-	  }
-	},
-	mounted() {
-	  this.fetchAuthorsAndTags();
-	}
+  data() {
+    return {
+      film: {
+        title: '',
+        note: '',
+        rate: null,
+        status: 0,
+        author_id: null,
+        tags: []
+      },
+      authors: [],
+      tags: [],
+      
+      selectedStatus: null,
+      selectedAuthor: null,
+      selectedTags: [],
+
+      statuses: [
+        {"name": "Watched", "value": "0"},
+        {"name": "Planned", "value": "1"},
+        {"name": "Dropped", "value": "2"}
+      ]
+    };
+  },
+  methods: {
+    async fetchAuthorsAndTags() {
+    try {
+      const [authorsResponse, tagsResponse] = await Promise.all([getAuthors(), getTags()]);
+      console.log(authorsResponse);
+      this.authors = authorsResponse.data;
+      this.tags = tagsResponse.data;
+    } catch (error) {
+      console.error(error);
+    }
+    },
+    async submitForm() {
+      try {
+        this.film.status = parseInt(this.selectedStatus.value);
+        this.film.author_id = this.selectedAuthor.id
+        this.film.tags = this.selectedTags.map(t => t.id);
+
+        await createFilm(this.film);
+        alert('Movie added successfully');
+        this.$router.push('/movies');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  mounted() {
+    this.fetchAuthorsAndTags();
+  }
   };
   </script>
-  
