@@ -1,6 +1,6 @@
 <template>
-  <div class="vh-100 text-bg-light">
-    <div class="h-100 container">
+  <div class="min-h-screen text-bg-light">
+    <div class="container">
       <div id="app">
         <ul class="nav nav-tabs mb-3">
           <li class="nav-item">

@@ -16,15 +16,15 @@ import MultiSelect from 'primevue/multiselect';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';   // optional
-import Row from 'primevue/row';                   // optional
+import ColumnGroup from 'primevue/columngroup'; 
+import Row from 'primevue/row';                 
 
 // import Button from 'primevue/button';
 // import InputText from 'primevue/inputtext';
 
-import 'primevue/resources/themes/saga-blue/theme.css'; // Theme
-import 'primevue/resources/primevue.min.css';           // Core CSS
-import 'primeicons/primeicons.css';                     // Icons
+import 'primevue/resources/themes/saga-blue/theme.css'; 
+import 'primevue/resources/primevue.min.css';       
+import 'primeicons/primeicons.css';                     
 import 'primeflex/primeflex.css';  
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -34,20 +34,20 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(fas);
 
 createApp(App)
-  .use(router)
-  .use(bootstrap)
-  .use(PrimeVue)
-  .component('Rating', Rating)
-  .component('Textarea', Textarea)
-  .component('Dropdown', Dropdown)
-  .component('InputText', InputText)
-  .component('FloatLabel', FloatLabel)
-  .component('Listbox', Listbox)
-  .component('MultiSelect', MultiSelect)
-  .component("DataTable", DataTable)
-  .component("Column", Column)
-  .component("ColumnGroup", ColumnGroup)
-  .component("Row", Row)
-  .component("fa", FontAwesomeIcon)
+	.use(router)
+	.use(bootstrap)
+	.use(PrimeVue)
+	.component('Rating', Rating)
+	.component('Textarea', Textarea)
+	.component('Dropdown', Dropdown)
+	.component('InputText', InputText)
+	.component('FloatLabel', FloatLabel)
+	.component('Listbox', Listbox)
+	.component('MultiSelect', MultiSelect)
+	.component("DataTable", DataTable)
+	.component("Column", Column)
+	.component("ColumnGroup", ColumnGroup)
+	.component("Row", Row)
+	.component("fa", FontAwesomeIcon)
 
-  .mount('#app');
+	.mount('#app');
