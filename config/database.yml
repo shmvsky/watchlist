@@ -31,11 +31,11 @@ default: &default
 
 development:
   <<: *default
-  database: video_development
+  database: watchlist_development
 
 test:
   <<: *default
-  database: video_test
+  database: watchlist_test
 
 production:
   <<: *default
