@@ -6,13 +6,13 @@ require "test_helper"
 class TagTest < ActiveSupport::TestCase
   test "should not save tag without name" do
     tag = Tag.new
-    assert_not tag.save, "Saved the tag without a name"
+    assert_raises tag.save, "Saved the tag without a name"
   end
 
   test "should not save tag with duplicate name" do
     tag1 = tags(:one)
     tag2 = Tag.new(name: tag1.name)
-    assert_not tag2.save, "Saved the tag with a duplicate name"
+    assert_raises tag2.save, "Saved the tag with a duplicate name"
   end
 
   test "should have many film_tags" do

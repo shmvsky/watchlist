@@ -6,18 +6,24 @@ require "test_helper"
 class FilmTest < ActiveSupport::TestCase
   test "should not save film without title" do
     film = Film.new(rate: 5, status: :watched, author: authors(:one))
-    assert_not film.save, "Saved the film without a title"
+    assert_raises(ActiveRecord::NotNullViolation, "Saved the film without a title") do
+      film.save
+    end
   end
 
   test "should not save film with duplicate title" do
     film1 = films(:one)
     film2 = Film.new(title: film1.title, rate: 4, status: :planned, author: authors(:two))
-    assert_not film2.save, "Saved the film with a duplicate title"
+    assert_raises(ActiveRecord::RecordNotUnique, "Saved the film with a duplicate title") do
+      film2.save
+    end
   end
 
   test "should not save film without rate" do
     film = Film.new(title: "Unique Title", status: :watched, author: authors(:one))
-    assert_not film.save, "Saved the film without a rate"
+    assert_raises(ActiveRecord::NotNullViolation, "Saved the film without a rate") do
+      film.save
+    end
   end
 
   test "should belong to an author" do
