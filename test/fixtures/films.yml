@@ -1,15 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  note: MyText
-  rating: 1
-  status: 1
+  title: Film One
+  note: Note for Film One
+  rate: 5
+  status: 0
   author: one
 
 two:
-  title: MyString
-  note: MyText
-  rating: 1
+  title: Film Two
+  note: Note for Film Two
+  rate: 4
   status: 1
   author: two
+
